@@ -25,11 +25,10 @@ def get_funding_news(api_key, sector):
     try:
         genai.configure(api_key=api_key)
         
-        # 💡 FIX: Using the correct model name (gemini-2.5-flash) which is widely available,
-        # and the proper grounding syntax ('google_search_retrieval').
+        # 💡 FINAL FIX: Using the officially required list/dictionary format for the 'google_search' tool.
         model = genai.GenerativeModel(
             'gemini-2.5-flash', 
-            tools='google_search_retrieval' 
+            tools=[{'google_search': {}}] 
         )
         
         today = datetime.now().strftime("%B %d, %Y")
@@ -48,7 +47,6 @@ def get_funding_news(api_key, sector):
             return model.generate_content(prompt)
             
     except Exception as e:
-        # This catches errors like invalid API key, network issues, or other exceptions.
         return f"Error: {str(e)}"
 
 # --- UI ---
