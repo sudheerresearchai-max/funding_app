@@ -4,40 +4,35 @@ from datetime import datetime
 import os
 
 # --- Page Configuration ---
-st.set_page_config(page_title="Startup Funding Aggregator", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="Startup Funding News Aggregator", page_icon="🚀", layout="wide")
 
 # --- 🔑 API KEY SECTION ---
-# Your key is hardcoded here so you don't have to type it.
+# Your key is hardcoded here, ready to use.
 # ⚠️ IMPORTANT: Do NOT upload this specific file to GitHub, or your key will be leaked.
 api_key = "AIzaSyD3bMsxHCxHgKDAVGdr7j7DoJyKN6AvAN0"
 
 # --- Sidebar ---
 with st.sidebar:
     st.header("⚙️ Settings")
-    st.success("✅ API Key Loaded") 
+    st.success("✅ System Ready") 
     
     st.divider()
     sector = st.selectbox("Select Sector", ["AI", "Fintech", "SaaS", "Crypto", "Biotech", "General"])
     fetch_btn = st.button("Find Latest Funding 🚀", type="primary")
 
-# --- Main Logic ---
+# --- Main Logic Function ---
 def get_funding_news(api_key, sector):
     try:
         genai.configure(api_key=api_key)
         
-        # Enable Google Search Tool (Grounding)
-        def get_funding_news(api_key, sector):
-        try:
-            genai.configure(api_key=api_key)
-            
-            # 💡 FIX: Using the correct, simplified string for the search tool
-            model = genai.GenerativeModel(
-                'gemini-1.5-flash', 
-                tools='google_search_retrieval' # Correct syntax for basic search grounding
-            )
-            # ... rest of the code is here
+        # 💡 FIX: This line uses the correct, simplified string for Google Search grounding.
+        model = genai.GenerativeModel(
+            'gemini-1.5-flash', 
+            tools='google_search_retrieval' 
+        )
         
         today = datetime.now().strftime("%B %d, %Y")
+        
         prompt = f"""
         Act as a VC Analyst. Search for the latest startup funding rounds in '{sector}' from the last 24 hours (Date: {today}).
         
@@ -64,4 +59,3 @@ if fetch_btn:
         st.error(result)
     else:
         st.markdown(result.text)
-
