@@ -26,10 +26,16 @@ def get_funding_news(api_key, sector):
         genai.configure(api_key=api_key)
         
         # Enable Google Search Tool (Grounding)
-        tools = [
-            {"google_search": {}} 
-        ]
-        model = genai.GenerativeModel('gemini-1.5-flash', tools=tools)
+        def get_funding_news(api_key, sector):
+        try:
+            genai.configure(api_key=api_key)
+            
+            # 💡 FIX: Using the correct, simplified string for the search tool
+            model = genai.GenerativeModel(
+                'gemini-1.5-flash', 
+                tools='google_search_retrieval' # Correct syntax for basic search grounding
+            )
+            # ... rest of the code is here
         
         today = datetime.now().strftime("%B %d, %Y")
         prompt = f"""
@@ -58,3 +64,4 @@ if fetch_btn:
         st.error(result)
     else:
         st.markdown(result.text)
+
