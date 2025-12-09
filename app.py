@@ -25,10 +25,10 @@ def get_funding_news(api_key, sector):
     try:
         genai.configure(api_key=api_key)
         
-        # 💡 FINAL FIX: Using the officially required list/dictionary format for the 'google_search' tool.
+        # 💡 FINAL FIX: Using the simplified string syntax for the search tool for better compatibility.
         model = genai.GenerativeModel(
             'gemini-2.5-flash', 
-            tools=[{'google_search': {}}] 
+            tools='google_search_retrieval' 
         )
         
         today = datetime.now().strftime("%B %d, %Y")
